@@ -10,10 +10,10 @@ import java.util.Optional;
 
 @Service
 public class ServiceTarea implements ServiceTareaI {
-    @Autowired
-    RepositoryTarea repositoryTarea;
+    @Autowired                           //Indica a SpringFramework que debe inyectar una instancia
+    RepositoryTarea repositoryTarea;      //de la interfaz RepositoryTarea
 
-    @Override
+    @Override                                 //Sobrescritura de los métodos implementados en la Interface
     public List<Tarea> obtenerTarea() {
         return repositoryTarea.findAll();
     }

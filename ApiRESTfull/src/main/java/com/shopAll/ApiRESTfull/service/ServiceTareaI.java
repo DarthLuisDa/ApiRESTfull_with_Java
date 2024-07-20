@@ -5,6 +5,7 @@ import com.shopAll.ApiRESTfull.entity.Tarea;
 import java.util.List;
 import java.util.Optional;
 
+//Se implementan los métodos
 public interface ServiceTareaI {
     List<Tarea> obtenerTarea();
     Tarea obtenerTareaPorId(Long id);

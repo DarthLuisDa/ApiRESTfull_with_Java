@@ -2,12 +2,15 @@ package com.shopAll.ApiRESTfull.entity;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table (name = "Tareas")
-public class Tarea {
-    @Id
+@Entity                   //se usa para indicarle a la apalicacion que Tarea es una entidad
+@Table (name = "Tareas")   //se usa para indicar la tabla a usar de la base de datos
+public class Tarea {       //Se implementa la clase Tarea
+    @Id                    //Indicar la clave primaria de la entidad
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_Tarea")
+    //Esta anotación indica que el valor del campo id se generará automáticamente por la base de datos.
+    // La estrategia GenerationType.IDENTITY indica que la base de datos utilizará un valor auto-incrementable para el campo id.
+
+    @Column(name = "ID_Tarea")  //Se implementa para alinear las columnas de las tablas en las bases de datos
     Long id;
     @Column(name = "Nombre_Tarea")
     String nombre_tarea;
@@ -16,6 +19,8 @@ public class Tarea {
     @Column(name = "Estado")
     String estado;
 
+    //Constructor con los cuatro parámetros
+
     public Tarea(Long id, String nombre_tarea, String descripcion, String estado) {
         this.id = id;
         this.nombre_tarea = nombre_tarea;
@@ -23,9 +28,12 @@ public class Tarea {
         this.estado = estado;
     }
 
+    //Constructor vacío
+
     public Tarea() {
     }
 
+    //Métodos GETTERS y SETTERS
     public Long getId() {
         return id;
     }
@@ -58,6 +66,7 @@ public class Tarea {
         this.estado = estado;
     }
 
+    //TO STRING de la clase Tareas
     @Override
     public String toString() {
         return "Tarea{" +

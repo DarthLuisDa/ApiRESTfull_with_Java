@@ -8,42 +8,44 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/gestor_de_tareas_db")
-public class TareaController {
-    @Autowired
-    ServiceTareaI serviceTarea;
+@RestController                    //Esplicar a SpringFramework que TareaController es un controlador
+@RequestMapping("/gestor_de_tareas_db")     //Ruta base para solicitudes HTTP, realizar operaciones en recursos REST
+public class TareaController {    //Se implementa la clase Controlador Tarea
+    @Autowired                    //Indica a SpringFramework que debe inyectar una instancia
+    ServiceTareaI serviceTarea;    //de la interfaz ServiceTareaI
 
+    //Métodos GETTERS y SETTERS
 
-
-    @GetMapping("/tareas")
-    public List<Tarea> obtenerTarea() {
-        return serviceTarea.obtenerTarea();
+    @GetMapping("/tareas")                      //Obtener la lista completa
+    public List<Tarea> obtenerTarea() {         //Se implementa el llamado al service
+        return serviceTarea.obtenerTarea();     //Retorna el service tarea con su método
     }
 
-    @GetMapping("/tarea/{id}")
-    public Tarea obtenerTareaPorId(@PathVariable Long id) {
-        return serviceTarea.obtenerTareaPorId(id);        //Path para borrar
+    @GetMapping("/tarea/{id}")                                 //Obtener una tarea
+    public Tarea obtenerTareaPorId(@PathVariable Long id) {    //Se implementa el llamado al service  //Path para borrar
+        return serviceTarea.obtenerTareaPorId(id);             //Retorna el service tarea con su método
     }
 
-    @PostMapping("/tarea")
-    public Tarea crearTarea(@RequestBody Tarea tarea) {
-        return serviceTarea.crearTarea(tarea);            //Request para modificar
+    @PostMapping("/tarea")                                    //Añadir una tarea
+    public Tarea crearTarea(@RequestBody Tarea tarea) {       //Se implementa el llamado al service   //Request para modificar
+        return serviceTarea.crearTarea(tarea);                //Retorna el service tarea con su método
     }
 
-    @DeleteMapping("/tarea/{id}")
-    public Tarea borrarTarea(@PathVariable Long id) {
-        return serviceTarea.borrarTareaPorId(id);
+    @DeleteMapping("/tarea/{id}")                             //Eliminar una tarea
+    public Tarea borrarTarea(@PathVariable Long id) {         //Se implementa el llamado al service   //Path para borrar
+        return serviceTarea.borrarTareaPorId(id);             //Retorna el service tarea con su método
     }
 
-    @PatchMapping("/tarea")
-    public Tarea modificarTarea(@RequestBody Tarea tarea) {
-        return serviceTarea.modificarTareaCompleta(tarea);
+    //Tanto el Patch como el Put se usan para modificar, en este ejercicio use el PATCH para modificar la Tarea,
+    //y el PUT para modificar con ID.
+
+    @PatchMapping("/tarea")                                        //Modificar una tarea
+    public Tarea modificarTarea(@RequestBody Tarea tarea) {        //Se implementa el llamado al service   //Request para modificar
+        return serviceTarea.modificarTareaCompleta(tarea);          //Retorna el service tarea con su método
     }
 
-    @PutMapping("/tarea/{id}")
-    public Tarea modificarTareaPorID(@RequestBody Tarea tarea) {
-        return serviceTarea.modificarTareaPorID(tarea);
+    @PutMapping("/tarea/{id}")                                      //Modificar una tarea con ID
+    public Tarea modificarTareaPorID(@RequestBody Tarea tarea) {     //Se implementa el llamado al service   //Request para modificar
+        return serviceTarea.modificarTareaPorID(tarea);               //Retorna el service tarea con su método
     }
-
 }
