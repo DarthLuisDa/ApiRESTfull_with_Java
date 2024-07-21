@@ -79,7 +79,16 @@ public class TareaController {               //Se implementa la clase Controlado
     }
 
     @PutMapping("/tarea/{id}")                                      //Modificar una tarea con ID
-    public Tarea modificarTareaPorID(@RequestBody Tarea tarea) {     //Se implementa el llamado al service   //Request para modificar
-        return serviceTarea.modificarTareaPorID(tarea);               //Retorna el service tarea con su método
+
+    // public Tarea modificarTareaPorID(@RequestBody Tarea tarea) {     //Se implementa el llamado al service   //Request para modificar
+   //     return serviceTarea.modificarTareaPorID(tarea);               //Retorna el service tarea con su método
+   // }
+    public ResponseEntity<Tarea> modificarTareaPorID(@PathVariable Long id, @RequestBody Tarea tarea){
+        Tarea estudianteModificado = serviceTarea.modificarTareaPorID(id,tarea);
+        if(estudianteModificado==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(estudianteModificado);
     }
+
 }

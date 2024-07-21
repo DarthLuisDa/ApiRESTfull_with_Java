@@ -19,6 +19,8 @@ public class Tarea {       //Se implementa la clase Tarea
     @NotEmpty(message = "Nombre Vacio")
     private String nombre_tarea;
     @Column(name = "Descripcion")
+     /*@NotNull(message = "Descripción nula")
+    @Size(min = 3, max = 5)*/
     private String descripcion;
     @Column(name = "Estado")
     private String estado;

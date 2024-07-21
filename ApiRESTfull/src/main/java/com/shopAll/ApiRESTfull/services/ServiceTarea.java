@@ -39,7 +39,7 @@ public class ServiceTarea implements ServiceTareaI {
     }
 
     @Override
-    public Tarea modificarTareaPorID(Tarea tarea){
+    public Tarea modificarTareaPorID(Long id,Tarea tarea){
         return repositoryTarea.save(tarea);
     }
 }

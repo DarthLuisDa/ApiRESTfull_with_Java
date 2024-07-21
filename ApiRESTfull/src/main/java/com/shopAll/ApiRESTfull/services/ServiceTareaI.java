@@ -11,5 +11,5 @@ public interface ServiceTareaI {
     Tarea crearTarea(Tarea tarea);
     Tarea borrarTareaPorId(Long id);
     Tarea modificarTareaCompleta(Tarea tarea);
-    Tarea modificarTareaPorID(Tarea tarea);
+    Tarea modificarTareaPorID(Long id,Tarea tarea);
 }
