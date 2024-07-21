@@ -1,12 +1,11 @@
-package com.shopAll.ApiRESTfull.service;
+package com.shopAll.ApiRESTfull.services;
 
-import com.shopAll.ApiRESTfull.entity.Tarea;
-import com.shopAll.ApiRESTfull.repository.RepositoryTarea;
+import com.shopAll.ApiRESTfull.models.Tarea;
+import com.shopAll.ApiRESTfull.repositories.RepositoryTarea;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceTarea implements ServiceTareaI {

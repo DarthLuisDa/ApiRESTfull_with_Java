@@ -1,9 +1,8 @@
-package com.shopAll.ApiRESTfull.service;
+package com.shopAll.ApiRESTfull.services;
 
-import com.shopAll.ApiRESTfull.entity.Tarea;
+import com.shopAll.ApiRESTfull.models.Tarea;
 
 import java.util.List;
-import java.util.Optional;
 
 //Se implementan los métodos
 public interface ServiceTareaI {

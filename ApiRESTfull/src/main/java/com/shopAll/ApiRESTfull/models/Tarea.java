@@ -1,4 +1,4 @@
-package com.shopAll.ApiRESTfull.entity;
+package com.shopAll.ApiRESTfull.models;
 
 import jakarta.persistence.*;
 
