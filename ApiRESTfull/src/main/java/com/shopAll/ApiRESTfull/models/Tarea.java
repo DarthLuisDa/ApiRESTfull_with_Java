@@ -1,6 +1,8 @@
 package com.shopAll.ApiRESTfull.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity                   //se usa para indicarle a la apalicacion que Tarea es una entidad
 @Table (name = "Tareas")   //se usa para indicar la tabla a usar de la base de datos
@@ -11,13 +13,15 @@ public class Tarea {       //Se implementa la clase Tarea
     // La estrategia GenerationType.IDENTITY indica que la base de datos utilizará un valor auto-incrementable para el campo id.
 
     @Column(name = "ID_Tarea")  //Se implementa para alinear las columnas de las tablas en las bases de datos
-    Long id;
+    private Long id;
     @Column(name = "Nombre_Tarea")
-    String nombre_tarea;
+    @NotNull(message = "Nombre Tarea Nulo")
+    @NotEmpty(message = "Nombre Vacio")
+    private String nombre_tarea;
     @Column(name = "Descripcion")
-    String descripcion;
+    private String descripcion;
     @Column(name = "Estado")
-    String estado;
+    private String estado;
 
     //Constructor con los cuatro parámetros
 

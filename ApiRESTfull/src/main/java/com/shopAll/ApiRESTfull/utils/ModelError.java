@@ -3,7 +3,7 @@ package com.shopAll.ApiRESTfull.utils;
 import java.util.List;
 
 
-//Clase para manejar el error
+//Clase objeto para manejar el error
 public class ModelError {
 
     private String codigo;
@@ -11,7 +11,7 @@ public class ModelError {
 
     private List<String> errores;
 
-    public ModelError() {
+    public ModelError(String message, String errorCode) {
     }
 
     public ModelError(String codigo, String mensaje, List<String> errores) {

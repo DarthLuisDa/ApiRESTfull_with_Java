@@ -1,21 +1,26 @@
 package com.shopAll.ApiRESTfull.controllers;
 
+import com.shopAll.ApiRESTfull.exceptions.InvalidTareaDataException;
 import com.shopAll.ApiRESTfull.models.Tarea;
 import com.shopAll.ApiRESTfull.exceptions.TareaNotFoundException;
 import com.shopAll.ApiRESTfull.services.ServiceTareaI;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController                    //Esplicar a SpringFramework que TareaController es un controlador
-@RequestMapping("/gestor_de_tareas_db")     //Ruta base para solicitudes HTTP, realizar operaciones en recursos REST
-public class TareaController {    //Se implementa la clase Controlador Tarea
+import static java.util.stream.DoubleStream.concat;
 
-    @Autowired                    //Indica a SpringFramework que debe inyectar una instancia
-    ServiceTareaI serviceTarea;    //de la interfaz ServiceTareaI
+@RestController                              //Explicar a SpringFramework que TareaController es un controlador
+@RequestMapping("/gestor_de_tareas_db")      //Ruta base para solicitudes HTTP, realizar operaciones en recursos REST
+public class TareaController {               //Se implementa la clase Controlador Tarea
+
+    @Autowired                       //Indica a SpringFramework que debe inyectar una instancia
+    ServiceTareaI serviceTarea;      //de la interfaz ServiceTareaI
 
     //Métodos GETTERS y SETTERS
 
@@ -25,37 +30,40 @@ public class TareaController {    //Se implementa la clase Controlador Tarea
     }
 
 
-    @GetMapping("/tarea/{id}")                                 //Obtener una tarea
+    @GetMapping("/tarea/{id}")                                   //Obtener una tarea
 
+    //Código GET sin manejo de excepciones
     // public Tarea obtenerTareaPorId(@PathVariable Long id) {    //Se implementa el llamado al service  //Path para borrar
-   //     return serviceTarea.obtenerTareaPorId(id);             //Retorna el service tarea con su método
+    //     return serviceTarea.obtenerTareaPorId(id);             //Retorna el service tarea con su método
     //  }
 
-    public ResponseEntity<Tarea> obtenerTareaPorId(@PathVariable Long id) {
+    //Con manejo de excepciones
+    public ResponseEntity<Tarea> obtenerTareaPorId(@PathVariable Long id) throws TareaNotFoundException{
         Tarea tarea;
         tarea = serviceTarea.obtenerTareaPorId(id);
         if (tarea == null) {
-           throw new TareaNotFoundException("Tarea no encontrada","404 Not Found", HttpStatus.NOT_FOUND);
+           throw new TareaNotFoundException("Tarea"+" "+ id +" "+"no encontrada","err-12", HttpStatus.NOT_FOUND);
        }
        return ResponseEntity.ok(tarea);
     }
 
 
-   // Otra forma de escribirlo
-   /* public ResponseEntity<Tarea> obtenerTareaPorId(@PathVariable Long id)  throws TareaNotFoundException {
-       Tarea tarea = serviceTarea.obtenerTareaPorId(id);
-        if (tarea != null) {
-            return new ResponseEntity<>(tarea, HttpStatus.OK);
-        } else {
-            throw new TareaNotFoundException("Producto no encontrado con ID: " + id);
-        }
-    }
-    */
+    @PostMapping("/tarea")                                      //Añadir una tarea
 
-    @PostMapping("/tarea")                                    //Añadir una tarea
-    public Tarea crearTarea(@RequestBody Tarea tarea) {       //Se implementa el llamado al service   //Request para modificar
-        return serviceTarea.crearTarea(tarea);                //Retorna el service tarea con su método
+    //Código POST sin manejo de excepciones
+    //public Tarea crearTarea(@RequestBody Tarea tarea) {       //Se implementa el llamado al service   //Request para modificar
+    //    return serviceTarea.crearTarea(tarea);                //Retorna el service tarea con su método
+    //}
+
+    //Con manejo de excepciones
+    public ResponseEntity<Tarea> crearTarea(@Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new InvalidTareaDataException("Nombre Tarea obligatorio", "err-13", HttpStatus.NOT_FOUND, bindingResult);
+        }
+        Tarea tareaCreada = serviceTarea.crearTarea(tarea);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tareaCreada);
     }
+
 
     @DeleteMapping("/tarea/{id}")                             //Eliminar una tarea
     public Tarea borrarTarea(@PathVariable Long id) {         //Se implementa el llamado al service   //Path para borrar
