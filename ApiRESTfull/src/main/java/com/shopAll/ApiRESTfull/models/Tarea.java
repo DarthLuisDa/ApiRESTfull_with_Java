@@ -25,6 +25,8 @@ public class Tarea {       //Se implementa la clase Tarea
     @Column(name = "Estado")
     private String estado;
 
+
+
     //Constructor con los cuatro parámetros
 
     public Tarea(Long id, String nombre_tarea, String descripcion, String estado) {

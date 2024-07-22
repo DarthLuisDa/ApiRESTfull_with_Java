@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class ApiResTfullApplicationTests {
+	ApiResTfullApplicationTests() {
+	}
 
 	@Test                      //Método contextLoads de prueba de JUnit
 	void contextLoads() {
