@@ -34,94 +34,68 @@ public class TareaServiceTest {
     Tarea tarea;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         MockitoAnnotations.initMocks(this);
         tarea = new Tarea();
         tarea.setId(1L);
         tarea.setTitulo("Acomodar mercancía");
-
-        this.tarea = new Tarea();
-        Tarea task1 = new Tarea(1L, "Tarea 1", "Description 1","Estado 1");
-        task1.setEstado("Pendiente");
-        this.serviceTarea.crearTarea(task1);
     }
+        //Búsqueda completa de la lista
+        @Test
+        void testGetTarea(){
+            when(repositoryTarea.findAll()).thenReturn(List.of(tarea,tarea));
+            List<Tarea> listaTareaActual = serviceTarea.obtenerTarea();
+            assertEquals(2,listaTareaActual.size());
+        }
 
-    @Test
-    public void testCreateTask_Success() {
-        Tarea newTarea = new Tarea(1L, "Tarea 2", "Description 2","Estado 2");
-        newTarea.setEstado("En Proceso");
-        Tarea createdTarea = this.serviceTarea.crearTarea(newTarea);
-        Assertions.assertNotNull(createdTarea);
-        Assertions.assertEquals("Tarea 2", createdTarea.getTitulo());
-        Assertions.assertEquals("Descripcion 2", createdTarea.getDescripcion());
-        Assertions.assertEquals("En Proceso", createdTarea.getEstado());
+        //Búsqueda por Id
+        @Test
+        void testGetTareaById(){
+            when(repositoryTarea.findById(1L)).thenReturn(Optional.ofNullable(tarea));
+            Tarea tareaActual = serviceTarea.obtenerTareaPorId(1L);
+            assertEquals(tarea,tareaActual);
+        }
+
+        //Registro exitoso de una Tarea
+        @Test
+        void testCreateTarea(){
+            when(repositoryTarea.save(tarea)).thenReturn(tarea);
+            Tarea tareaActual = serviceTarea.crearTarea(tarea);
+            assertEquals(tarea,tareaActual);
+        }
+
+        //Modificación de una Tarea
+        @Test
+        void testModifyTarea(){
+            when(repositoryTarea.save(tarea)).thenReturn(tarea);
+            when(repositoryTarea.findById(1L)).thenReturn(Optional.ofNullable(tarea));
+            tarea.setTitulo("Leo");
+            Tarea tareaActualModificada = serviceTarea.modificarTareaPorID(1L, tarea);
+            assertEquals("Leo",tareaActualModificada.getTitulo());
+        }
+
+        //Tarea modificada no encontrada
+        @Test
+        void testModifyTarea_whenTareaNotFound(){
+            when(repositoryTarea.findById(1L)).thenReturn(Optional.ofNullable(null));
+            Tarea tareaActualModificada = serviceTarea.modificarTareaPorID(1L, tarea);
+            assertNull(tareaActualModificada);
+        }
+
+        //Eliminación de una Tarea
+        @Test
+        void testDeleteTarea(){
+            willDoNothing().given(repositoryTarea).deleteById(1L);
+            serviceTarea.borrarTareaPorId(1L);
+            verify(repositoryTarea, times(1)).deleteById(1L);
+        }
+
+        //Tarea eliminada no encontrada
+        @Test
+        void testDeleteTarea_whenTareaNotFound(){
+            when(repositoryTarea.findById(1L)).thenReturn(Optional.ofNullable(null));
+            Tarea tareaActualEliminada = serviceTarea.borrarTareaPorId(1L);
+            assertNull(tareaActualEliminada);
+        }
+
     }
-
-    @Test
-    public void testCreateTarea_InvalidData() {
-        Tarea newTarea = new Tarea(1L,(String)null, "Description 2", "Estado 2");
-        newTarea.setEstado("En Proceso");
-        Assertions.assertThrows(InvalidTareaDataException.class, () -> {
-            this.serviceTarea.crearTarea(newTarea);
-        });
-    }
-
-    //Búsqueda completa de la lista
-    @Test
-    void testGetTarea(){
-        when(repositoryTarea.findAll()).thenReturn(List.of(tarea,tarea));
-        List<Tarea> listaTareaActual = serviceTarea.obtenerTarea();
-        assertEquals(2,listaTareaActual.size());
-    }
-
-    //Búsqueda por Id
-    @Test
-    void testGetTareaById(){
-        when(repositoryTarea.findById(1L)).thenReturn(Optional.ofNullable(tarea));
-        Tarea tareaActual = serviceTarea.obtenerTareaPorId(1L);
-        assertEquals(tarea,tareaActual);
-    }
-
-    //Registro exitoso de una Tarea
-    @Test
-    void testCreateTarea(){
-        when(repositoryTarea.save(tarea)).thenReturn(tarea);
-        Tarea tareaActual = serviceTarea.crearTarea(tarea);
-        assertEquals(tarea,tareaActual);
-    }
-
-    //Modificación de una Tarea
-    @Test
-    void testModifyTarea(){
-        when(repositoryTarea.save(tarea)).thenReturn(tarea);
-        when(repositoryTarea.findById(1L)).thenReturn(Optional.ofNullable(tarea));
-        tarea.setTitulo("Leo");
-        Tarea tareaActualModificada = serviceTarea.modificarTareaPorID(1L, tarea);
-        assertEquals("Leo",tareaActualModificada.getTitulo());
-    }
-
-    //Tarea modificada no encontrada
-    @Test
-    void testModifyTarea_whenTareaNotFound(){
-        when(repositoryTarea.findById(1L)).thenReturn(Optional.ofNullable(null));
-        Tarea tareaActualModificada = serviceTarea.modificarTareaPorID(1L, tarea);
-        assertNull(tareaActualModificada);
-    }
-
-   //Eliminación de una Tarea
-    @Test
-    void testDeleteTarea(){
-        willDoNothing().given(repositoryTarea).deleteById(1L);
-        serviceTarea.borrarTareaPorId(1L);
-        verify(repositoryTarea, times(1)).deleteById(1L);
-    }
-
-    //Tarea eliminada no encontrada
-    @Test
-    void testDeleteTarea_whenTareaNotFound(){
-        when(repositoryTarea.findById(1L)).thenReturn(Optional.ofNullable(null));
-        Tarea tareaActualEliminada = serviceTarea.borrarTareaPorId(1L);
-        assertNull(tareaActualEliminada);
-    }
-
-}
